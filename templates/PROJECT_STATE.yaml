@@ -1,0 +1,41 @@
+schema_version: 1
+project: ""
+repo: ""
+branch: ""
+objective: ""
+
+state: UNKNOWN
+canonical_status: UNKNOWN
+remote_head: ""
+last_verified_progress_at: ""
+
+developer:
+  executor: ""
+  thread: ""
+  state: UNKNOWN
+  last_output_at: ""
+  last_verified_write_at: ""
+
+writer_lease:
+  holder: ""
+  state: RELEASED
+  scope: ""
+  acquired_at: ""
+  last_verified_activity_at: ""
+
+checks:
+  required: []
+  state: UNKNOWN
+  evidence: []
+
+blocker:
+  type: NONE
+  description: ""
+  owner_escalation_required: false
+
+next_action:
+  type: ""
+  rationale: ""
+  instruction: ""
+
+notes: []

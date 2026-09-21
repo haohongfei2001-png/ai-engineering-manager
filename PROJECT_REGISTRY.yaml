@@ -1,0 +1,14 @@
+schema_version: 1
+manager_playbook_version: "0.1.0"
+projects: []
+
+# Add current engagements here or provide them to Work at startup.
+# Example shape:
+#
+# - id: example
+#   repo: owner/repo
+#   default_branch: main
+#   objective: "Current product or engineering objective"
+#   developer_threads: []
+#   authority_paths: []
+#   owner_constraints: []
