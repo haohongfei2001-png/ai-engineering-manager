@@ -1,6 +1,6 @@
 # AEM — Autonomous Engineering Manager Playbook
 
-Version: v0.1.0
+Version: v0.2.0
 
 AEM is a reusable operating playbook for an AI engineering manager supervising multiple software projects and developer agents.
 

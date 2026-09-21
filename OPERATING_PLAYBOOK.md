@@ -21,6 +21,8 @@ For every managed project, inspect:
 
 Do not trust stale snapshots when fresh remote evidence is available.
 
+If an observation source may cache or reuse prior state, verify freshness with an independent query, ref, timestamp, or exact commit binding before treating it as current progress.
+
 ## Understand
 
 Separate facts from claims.
@@ -31,6 +33,7 @@ Ask:
 - Is the current blocker technical, environmental, authority-related, or product-level?
 - Is the developer agent still making verifiable progress?
 - Is a proposed large change actually necessary?
+- Does a check certify the runtime/code under review, or only a later documentation-only commit?
 
 ## Prioritize
 
@@ -62,10 +65,23 @@ Before accepting completion, check:
 - intended branch was updated;
 - no unrelated scope was changed;
 - required tests actually ran;
-- CI status corresponds to the exact relevant head;
+- CI status corresponds to the exact relevant runtime/code head;
 - real-product behavior matches the claim when required;
 - canonical status/evidence reflects reality;
 - later work did not silently invalidate the result.
+
+Do not create a self-referential certification loop when closure documentation is committed after a runtime has already been certified. Record which runtime/test SHA owns the certification and which later docs SHA records the closure.
+
+## Close the current scope
+
+A completed round, milestone, or package does not by itself authorize the next one.
+
+After closure:
+- update the canonical state;
+- preserve evidence;
+- stop or release obsolete executors;
+- leave the next scope NOT_STARTED / READY / BLOCKED exactly as project authority requires;
+- start a new scope only when its authorization rules are satisfied.
 
 ## Learn
 
