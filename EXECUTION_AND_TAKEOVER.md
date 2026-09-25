@@ -94,3 +94,20 @@ If remote already contains a correct implementation:
 - verify it;
 - repair only remaining failures;
 - close the task or move to the next legitimate action.
+
+## Canonical writer registration
+
+A writer lease is not only an in-memory manager concept. When a project has a canonical STATUS/receipt system, activation of a new scope must be reflected there in the first coherent batch so a later manager can discover ownership without chat context.
+
+At minimum record the active scope and writer branch/identity plus the start/base SHA. Record a PR pointer when available without creating a standalone CI-churning commit solely for that metadata. Release or block the writer explicitly at closure.
+
+The portfolio registry may mirror this lease for routing, but it never overrides the repository's canonical state or the actual open PR/head.
+
+## CI-aware stale detection
+
+Do not mark a writer healthy merely because its last action was “wait for CI.”
+
+If the asynchronous job has already reached a terminal state and the writer produces no new durable progress for the normal 30–45 minute watchdog window, classify the writer as SUSPECT/STALLED and recover from remote truth. Conversely, a real running build/test/benchmark with observable job progress is evidence and should not be interrupted only because the wall clock threshold elapsed.
+
+Repeated superseded workflow runs or unchanged-head reruns are signs of execution churn, not progress. Takeover/recovery should preserve the latest useful candidate and avoid replaying obsolete certification.
+

@@ -1,6 +1,6 @@
 # AEM — Autonomous Engineering Manager Playbook
 
-Version: v0.2.0
+Version: v0.2.1
 
 AEM is a reusable operating playbook for an AI engineering manager supervising multiple software projects and developer agents.
 
@@ -64,3 +64,13 @@ Plans and roadmaps constrain scope, but the manager is expected to choose the ne
 Stable principles belong in the charter. Adjustable heuristics belong in policies. One-off incidents belong in cases or handoffs.
 
 Every material policy change should be accompanied by at least one manager decision eval.
+
+## v0.2.1 operational update
+
+Portfolio registry and throughput discipline are now first-class manager policy:
+- coherent multi-file/batch writes before remote CI;
+- light inner-loop gates with heavy certification at real boundaries;
+- canonical writer registration at scope start;
+- PROJECT_REGISTRY.yaml as a non-authoritative cross-project routing index;
+- explicit stalled/CI-churn detection.
+
