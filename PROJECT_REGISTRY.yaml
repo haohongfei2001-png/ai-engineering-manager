@@ -1,14 +1,191 @@
-schema_version: 1
-manager_playbook_version: "0.1.0"
-projects: []
+schema_version: 2
+manager_playbook_version: "0.2.1"
+registry_role: ROUTING_INDEX_ONLY
+last_reconciled_utc: "2026-09-25T10:47:00Z"
 
-# Add current engagements here or provide them to Work at startup.
-# Example shape:
-#
-# - id: example
-#   repo: owner/repo
-#   default_branch: main
-#   objective: "Current product or engineering objective"
-#   developer_threads: []
-#   authority_paths: []
-#   owner_constraints: []
+truth_policy:
+  refresh_before_action: true
+  canonical_repo_status_overrides_registry: true
+  remote_main_and_active_pr_override_chat_memory: true
+  registry_may_be_stale_after_any_project_transition: true
+
+routing_states:
+  - ACTIVE
+  - BLOCKED
+  - PAUSED
+  - STABLE
+
+throughput_policy:
+  coherent_batch_before_push: true
+  no_blocking_ci_wait: true
+  no_unchanged_head_rerun_without_transient_evidence: true
+  light_inner_loop_heavy_boundary_certification: true
+  one_active_writer_per_repo_scope: true
+  stalled_signal_minutes: "30-45"
+
+projects:
+  - id: paia
+    repo: haohongfei2001-png/paia
+    priority: P0
+    routing_state: ACTIVE
+    canonical_status_path: extension/docs/consumer-product-v1/STATUS.md
+    current_scope: "VS-04 Batch A — natural editing and lexical retrieval"
+    observed_main: 8ae0533c2399082cb273c20ed99fc2f1cce29918
+    writer:
+      state: ACTIVE
+      pr: 76
+      branch: manager/vs04-batch-a-20260925
+      observed_head: b664e92759b82c27ffa1a68b222e2d7ceddcd77d
+    gate: "Earlier external/current-live certification debt remains deferred; it does not stop independent engineering."
+    manager_route: "Continue PR #76 only; use Candidate Gate for draft work and full certification only at the canonical boundary/high-risk marker."
+
+  - id: pjsdas
+    repo: haohongfei2001-png/pjsdas
+    priority: P0
+    routing_state: ACTIVE
+    canonical_status_path: docs/tasks-schedule-ui-v1/STATUS.md
+    current_scope: "TSUI-03 — job library and full-page detail"
+    observed_main: ec73f433ba6c842d68deba340381b8fb1b547b67
+    writer:
+      state: ACTIVE
+      pr: 158
+      branch: tsui/03-library-detail
+      observed_head: 1d194eb24cf2b8970de33edc799cf1de70e8e97c
+    gate: null
+    manager_route: "Continue PR #158 only; keep draft/inner-loop browser checks bounded and reserve full Browser E2E for a ready integration candidate or main."
+
+  - id: job-application-executor
+    repo: haohongfei2001-png/Job-Application-Executor
+    priority: P0
+    routing_state: ACTIVE
+    canonical_status_path: docs/consumer-readiness-v1/STATUS.json
+    current_scope: "JCR-08 — consumer app and transactional local release"
+    observed_main: 753688f0a5cb8b69463ff747b47e32c86335c969
+    writer:
+      state: ACTIVE
+      pr: 20
+      branch: feat/jcr08-consumer-app
+      observed_head: 396aa0485c6f2ca99598730991771db06e824eb3
+    gate: "Final submit and real applicant/site side effects remain user-only/deferred."
+    manager_route: "Continue PR #20 only; draft pushes should use bounded affected tests, with full suite + hosted Mac reserved for ready/closure candidates and main."
+
+  - id: paia-semantic-lab
+    repo: haohongfei2001-png/paia-semantic-lab
+    priority: P1
+    routing_state: ACTIVE
+    canonical_status_path: status/COMPOSITIONAL_INTENT_GRAPH_STATUS.yaml
+    current_scope: "CIG-02E targeted source adjudication"
+    observed_main: 977666497e86610c130ab91cf3afd26b23df5c2b
+    writer:
+      state: ACTIVE
+      pr: 43
+      branch: research/cig02e-source-feasibility-analysis
+      observed_head: c78ae177b76bb6a88e234f92de9cdfd710415e21
+    gate: "CIG-03 remains blocked until CIG-02 is frozen; consumed/frozen evidence boundaries remain binding."
+    manager_route: "Continue the same research package only; batch engineering within one evidence phase, but never batch across fresh-evidence/freeze boundaries."
+
+  - id: human-cognition-layer
+    repo: haohongfei2001-png/human-cognition-layer
+    priority: P1
+    routing_state: BLOCKED
+    canonical_status_path: STATUS.md
+    current_scope: "HCL v0.6 external C/P/D utility validation"
+    observed_main: b9c968b31fa4aa003a1898109dadbab25c8458b8
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: "Provider-backed external utility testing requires provider/model/reasoning-budget/bounded-cost authorization."
+    manager_route: "Do not invent another internal benchmark loop while the external utility gate is the next canonical step."
+
+  - id: chat-title-manager
+    repo: haohongfei2001-png/chat-title-manager
+    priority: P1
+    routing_state: BLOCKED
+    canonical_status_path: status/STATUS.yaml
+    current_scope: "v0.1 bootstrap and live ChatGPT rename acceptance"
+    observed_main: 44d5a4e3f2369e7debaed23cdabb2b2dbe1ebab7
+    writer:
+      state: BLOCKED
+      pr: 1
+      branch: ctm-v0.1-bootstrap
+      observed_head: 3222066812e08aa75119247de5ec5968e3bfbaeb
+    gate: "Private-repository hosted Actions allowance and live logged-in ChatGPT DOM acceptance."
+    manager_route: "Do not churn CI while runner access is blocked; preserve the sole draft PR."
+
+  - id: context-tabs
+    repo: haohongfei2001-png/context-tabs
+    priority: P2
+    routing_state: ACTIVE
+    attention: STALLED_READY_NO_WRITER
+    canonical_status_path: status/CONTEXT_TABS_STATUS.yaml
+    current_scope: "CT-02 — find and order"
+    observed_main: 8ccdd75255e37bb4a2ff92da427a7be86c6192f7
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: null
+    manager_route: "Canonical project state is ACTIVE/READY with no blocker but no writer; do not silently call this healthy. Start one writer only when portfolio capacity intentionally returns to this project, or explicitly PAUSE it."
+
+  - id: adaptive-contextual-sidebar
+    repo: haohongfei2001-png/adaptive-contextual-sidebar
+    priority: P2
+    routing_state: BLOCKED
+    canonical_status_path: status/ACS_STATUS.yaml
+    current_scope: "ACS-00 capability spike closure"
+    observed_main: 7495158e9d3e3b383feafe00cea810e8954cac82
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: "ACS-00 lifecycle/scope evidence unresolved; ACS-01 requires new owner instruction."
+    manager_route: "Do not advance ACS-01."
+
+  - id: local-aem-manager
+    repo: haohongfei2001-png/local-aem-manager
+    priority: P2
+    routing_state: BLOCKED
+    canonical_status_path: status/LOCAL_AEM_STATUS.yaml
+    current_scope: "R6 live local certification"
+    observed_main: 3a0279a55669923da7ceac90b688929605b85d6a
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: "Owner authorization is required for a new certified live transport fix; local execution is not the default cloud path."
+    manager_route: "Do not restart local/browser execution without the explicit R6 authorization."
+
+  - id: ai-engineering-manager
+    repo: haohongfei2001-png/ai-engineering-manager
+    priority: P1
+    routing_state: STABLE
+    canonical_status_path: PROJECT_REGISTRY.yaml
+    current_scope: "AEM v0.2 manager policy"
+    observed_main_before_this_update: 80fabf068536bab12327b3604c83cc9a33205322
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: null
+    manager_route: "Use as policy/routing support; project repositories remain authoritative."
+
+  - id: bk-formfactors
+    repo: haohongfei2001-png/BK-formfactors
+    priority: P3
+    routing_state: STABLE
+    canonical_status_path: BK_Final/FINAL_PACKAGE_REPORT.md
+    current_scope: "Validated B→K form-factor delivery package"
+    observed_main: a183a9192d5bd8ebcc2e37d0960fc1adbef1d869
+    writer:
+      state: RELEASED
+      pr: null
+      branch: null
+      observed_head: null
+    gate: "Further physics scope depends on supervisor/physics choices recorded in OPEN_QUESTIONS.md."
+    manager_route: "Do not expand the physics calculation merely to keep development active."
